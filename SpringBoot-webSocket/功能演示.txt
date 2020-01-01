@@ -1,0 +1,5 @@
+1.打开一个新的窗口，访问：http://localhost/websocket.html          窗口1
+2.打开一个新的窗口，访问：http://localhost/websocket.html          窗口2
+3.打开一个新的窗口，访问：http://localhost/sendInfo?msg=测试webSocket      窗口3
+
+然后再看窗口1,2
