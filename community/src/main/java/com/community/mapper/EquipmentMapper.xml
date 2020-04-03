@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.community.mapper.EquipmentMapper">
+
+	<select id="getEquipmentByName" parameterType="int" resultType="com.community.entity.Equipment">
+		SELECT * FROM equipment e WHERE e.id = #{0}
+	</select>
+	
+	<select id="getEquipmentByNames" parameterType="String" resultType="com.community.entity.Equipment">
+		SELECT * FROM equipment e WHERE e.equipmentName like %${equipmentName}%
+	</select>
+	
+	<select id="getAllEquipmentByPage" parameterType="int" resultType="com.community.entity.Equipment">
+		SELECT * FROM equipment e LIMIT #{0},#{1}
+	</select>
+	
+	<update id="updateEquipment" parameterType="com.community.entity.Equipment">
+		UPDATE equipment
+		<set>
+			<if test="equipmentName != null and equipmentName !='' ">equipmentName=#{equipmentName},</if>
+			<if test="location != null and location !='' ">location=#{location},</if>
+			<if test="serialNumber != null and serialNumber !='' ">serialNumber=#{serialNumber},</if>
+			<if test="boughtDate != null">boughtDate=#{boughtDate},</if>
+			<if test="type != null and type !='' ">type=#{type},</if>
+			<if test="brand != null and brand !='' ">brand=#{brand},</if>
+			<if test="status != null and status !='' ">status=#{status},</if>
+			<if test="conditiona != null and conditiona !='' ">conditiona=#{conditiona},</if>
+			<if test="createTime != null">createTime=#{createTime},</if>
+			<if test="price != null">price=#{price},</if>
+		</set>
+		WHERE id =#{id}
+	</update>
+	
+	<update id="deleteEquipment" parameterType="int">
+		UPDATE equipment
+		SET status = 0
+		WHERE id = #{0}
+	</update>
+	
+	<insert id="addEquipment" parameterType="com.community.entity.Equipment">
+		INSERT INTO equipment (
+			equipmentName,
+			location,
+			serialNumber,
+			boughtDate,
+			type,
+			brand,
+			status,
+			condition,
+			createTime,
+			price
+		)VALUES(
+			#{equipmentName},
+			#{location},
+			#{serialNumber},
+			#{boughtDate},
+			#{type},
+			#{brand},
+			#{status},
+			#{conditiona},
+			now(),
+			#{price}
+		)
+	</insert>
+	
+</mapper>

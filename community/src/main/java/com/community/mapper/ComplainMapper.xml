@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.community.mapper.ComplainMapper">
+	
+	<select id="getAllCompalinByPage" parameterType="int" resultType="com.community.entity.Complain">
+		SELECT * FROM complain c LIMIT #{0},#{1}
+	</select>
+	
+	<select id="getComplainById" parameterType="int" resultType="com.community.entity.Complain">
+		SELECT * FROM complain c WHERE c.id = #{0}
+	</select>
+	
+	<select id="getComplainByUser" parameterType="map" resultType="com.community.entity.Complain">
+		SELECT * FROM complain c WHERE c.userId = #{userId} and c.status = #{status}
+	</select>
+	
+	<select id="getComplainByStatus" parameterType="String" resultType="com.community.entity.Complain">
+		SELECT * FROM complain c WHERE  c.status = #{status}
+	</select>
+	
+	<update id="updateComplain" parameterType="com.community.entity.Complain">
+		UPDATE complain
+		<set>
+			<if test="createTime != null">createTime=#{createTime},</if>
+			<if test="userId != null">userId=#{userId},</if>
+			<if test="realName != null and realName !='' ">realName=#{realName},</if>
+			<if test="phone != null and phone !='' ">phone=#{phone},</if>
+			<if test="dealTime != null">dealTime=#{dealTime},</if>
+			<if test="operaterName != null and operaterName !='' ">operaterName=#{operaterName},</if>
+			<if test="operaterUserId != null">operaterUserId=#{operaterUserId},</if>
+			<if test="content != null and content !='' ">content=#{content},</if>
+			<if test="agreement != null">agreement=#{agreement},</if>
+			<if test="status != null and status !='' ">status=#{status},</if>
+			<if test="comments != null and comments !='' ">comments=#{comments},</if>
+			updateTime = now()
+		</set>
+		WHERE id =#{id} 
+	</update>
+	
+	<update id="deleteComplain" parameterType="int">
+		UPDATE complain 
+		SET status = 0
+		WHERE id = #{0}
+	</update>
+	
+	<insert id="addComplain" parameterType="com.community.entity.Complain">
+		INSERT INTO complain(
+			createTime,
+			userId,
+			realName,
+			phone,
+			content,
+			status
+		)VALUES(
+			now(),
+			#{userId},
+			#{realName},
+			#{phone},
+			#{content},
+			#{status}
+		)
+	</insert>
+	
+</mapper>

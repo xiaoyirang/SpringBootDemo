@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.community.mapper.InstrumentMapper">
+
+	<select id="getInstrumentByPage" parameterType="int" resultType="com.community.entity.Instrument">
+		SELECT * FROM instrument c LIMIT #{0},#{1}
+	</select>
+	
+	<select id="getInstrumentById" parameterType="int" resultType="com.community.entity.Instrument">
+		SELECT * FROM instrument c WHERE c.id = #{0}
+	</select>
+	
+	<update id="updateInstrument" parameterType="com.community.entity.Instrument">
+		UPDATE instrument
+		<set>
+			<if test="userId != null">userId=#{userId}</if>
+			<if test="realName != null and realName !='' ">realName=#{realName}</if>
+			<if test="roomId != null">roomId=#{roomId}</if>
+			<if test="startTime != null">startTime=#{startTime}</if>
+		    <if test="type != null and type !='' ">type=#{type}</if>
+			<if test="feeType != null and feeType !='' ">feeType=#{feeType}</if>
+			<if test="brand != null and brand !='' ">brand=#{brand}</if>
+			<if test="lastNum != null">lastNum=#{lastNum}</if>
+			<if test="thisNum != null">thisNum=#{thisNum}</if>
+			<if test="consumeNum != null">consumeNum=#{consumeNum}</if>
+			<if test="lastInputUserId != null">lastInputUserId=#{lastInputUserId}</if>
+			<if test="lasthInputUserName != null and lasthInputUserName !='' ">lasthInputUserName=#{lasthInputUserName}</if>
+			<if test="thisInputUserId != null">thisInputUserId=#{thisInputUserId}</if>
+			<if test="thisInputUserName != null and thisInputUserName !='' ">thisInputUserName=#{thisInputUserName}</if>
+			<if test="status != null">status=#{status}</if>
+		</set>
+		WHERE id =#{id}
+	</update>
+	
+	<update id="deleteInstrument" parameterType="int">
+		UPDATE instrument 
+		SET status = 0
+		WHERE id = #{0}
+	</update>
+	
+	<insert id="addInstrument" parameterType="com.community.entity.Instrument">
+		INSERT INTO instrument(
+			userId,
+			realName,
+			roomId,
+			startTime,
+			type,
+			feeType,
+			brand,
+			lastNum,
+			thisNum,
+			consumeNum,
+			lastInputUserId,
+			lasthInputUserName,
+			thisInputUserId,
+			thisInputUserName,
+			status
+		)VALUES(
+			#{userId},
+			#{realName},
+			#{roomId},
+			#{startTime},
+			#{type},
+			#{feeType},
+			#{brand},
+			#{lastNum},
+			#{thisNum},
+			#{consumeNum},
+			#{lastInputUserId},
+			#{lasthInputUserName},
+			#{thisInputUserId},
+			#{thisInputUserName},
+			#{status}
+		)
+	</insert>
+	
+</mapper>

@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.community.mapper.UserrepairMapper">
+
+	<select id="getUserrepairByPage" parameterType="int" resultType="com.community.entity.Userrepair">
+		SELECT * FROM userrepair c LIMIT #{0},#{1}
+	</select>
+	
+	<select id="getUserrepairById" parameterType="int" resultType="com.community.entity.Userrepair">
+		SELECT * FROM userrepair c WHERE c.userId = #{0} and c.status =#{1}
+	</select>
+	
+	<select id="getUserrepairByStatus" parameterType="int" resultType="com.community.entity.Userrepair">
+		SELECT * FROM userrepair c WHERE c.status =#{0}
+	</select>
+	<update id="updateUserrepair" parameterType="com.community.entity.Userrepair">
+		UPDATE userrepair
+		<set>
+			<if test="userId != null">userId=#{userId},</if>
+			<if test="realName != null and realName !='' ">realName=#{realName},</if>
+			<if test="applyTime != null">applyTime=#{applyTime},</if>
+			<if test="phone != null and phone !='' ">phone=#{phone},</if>
+		    <if test="bookTime != null">bookTime=#{bookTime},</if>
+			<if test="serviceCost != null">serviceCost=#{serviceCost},</if>
+			<if test="equipmentCost != null">equipmentCost=#{equipmentCost},</if>
+			<if test="allCost != null">allCost=#{allCost},</if>
+			<if test="comments != null and comments != ''">comments=#{comments},</if>
+			<if test="agreement != null">agreement=#{agreement},</if>
+			<if test="status != null">status=#{status},</if>
+			<if test="replyComments != null and replyComments != ''">replyComments=#{replyComments}</if>
+		</set>
+		WHERE id =#{id}
+	</update>
+	
+	<update id="deleteUserrepair" parameterType="int">
+		UPDATE userrepair 
+		SET status = 0
+		WHERE id = #{0}
+	</update>
+	
+	<insert id="addUserrepair" parameterType="com.community.entity.Userrepair">
+		INSERT INTO userrepair(
+			userId,
+			realName,
+			applyTime,
+			phone,
+			bookTime,
+			serviceCost,
+			allCost,
+			comments,
+			agreement,
+			status,
+			replyComments
+		)VALUES(
+			#{userId},
+			#{realName},
+			now(),
+			#{phone},
+			#{bookTime},
+			#{serviceCost},
+			#{allCost},
+			#{comments},
+			#{agreement},
+			#{status},
+			#{replyComments}
+		)
+	</insert>
+	
+</mapper>

@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.community.mapper.EquipmentrepairMapper">
+
+	<select id="getEquipmentrepairByPage" parameterType="int" resultType="com.community.entity.Equipmentrepair">
+		SELECT * FROM equipmentrepair c LIMIT #{0},#{1}
+	</select>
+	
+	<select id="getEquipmentrepairById" parameterType="int" resultType="com.community.entity.Equipmentrepair">
+		SELECT * FROM equipmentrepair c WHERE c.createUserId = #{0} and c.status = #{1}
+	</select>
+	
+	<select id="getEquipmentrepairByStatus" parameterType="int" resultType="com.community.entity.Equipmentrepair">
+		SELECT * FROM equipmentrepair c WHERE  c.status = #{1}
+	</select>
+	
+	<update id="updateEquipmentrepair" parameterType="com.community.entity.Equipmentrepair">
+		UPDATE equipmentrepair
+		<set>
+			<if test="equipmentId != null">equipmentId=#{equipmentId},</if>
+			<if test="equipmentName != null and equipmentName !='' ">equipmentName=#{equipmentName},</if>
+			<if test="operateName != null and operateName !='' ">operateName=#{operateName},</if>
+			<if test="comments != null and comments !='' ">comments=#{comments},</if>
+		    <if test="createUserId != null">createUserId=#{createUserId},</if>
+			<if test="createName != null and createName !='' ">createName=#{createName},</if>
+			<if test="operaterName != null and operaterName !='' ">operaterName=#{operaterName},</if>
+			<if test="location != null and location !='' ">location=#{location},</if>
+			<if test="startTime != null">startTime=#{startTime},</if>
+			<if test="status != null">status=#{status},</if>
+			<if test="endTime != null">endTime=#{endTime},</if>
+			<if test="fee != null">fee=#{fee},</if>
+			<if test="createTime != null">createTime=#{createTime}</if>
+		</set>
+		WHERE id =#{id}
+	</update>
+	
+	<update id="deleteEquipmentrepair" parameterType="int">
+		UPDATE equipmentrepair 
+		SET status = 0
+		WHERE id = #{0}
+	</update>
+	
+	<insert id="addEquipmentrepair" parameterType="com.community.entity.Equipmentrepair">
+		INSERT INTO equipmentrepair(
+			equipmentId,
+			equipmentName,
+			operateName,
+			comments,
+			createUserId,
+			createName,
+			operaterName,
+			location,
+			status,
+			startTime,
+			endTime,
+			fee,
+			createTime
+		)VALUES(
+			#{equipmentId},
+			#{equipmentName},
+			#{operateName},
+			#{comments},
+			#{createUserId},
+			#{createName},
+			#{operaterName},
+			#{location},
+			#{status},
+			#{startTime},
+			#{endTime},
+			#{fee},
+			now()
+		)
+	</insert>
+	
+</mapper>

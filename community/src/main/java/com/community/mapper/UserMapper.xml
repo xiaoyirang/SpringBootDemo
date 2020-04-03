@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.community.mapper.UserMapper">
+	
+	<sql id="Field_PK">
+		id,
+		userName,
+		password,
+		realName,
+		sex,
+		companyName,
+		idCardNum,
+		phone,
+		email,
+		settleTime, 
+		mainAccount,     
+		relationship,
+		role,
+		status,
+		createTime,
+		updateTime,
+		outmigrationTime,
+		address
+	</sql>
+	
+	<sql id="Field_NOPK">
+		userName,
+		password,
+		realName,
+		sex,
+		companyName,
+		idCardNum,
+		phone,
+		email,
+		settleTime, 
+		mainAccount,     
+		relationship,
+		role,
+		status,
+		createTime,
+		updateTime,
+		outmigrationTime,
+		address
+	</sql>
+	
+	<select id="getUserById" parameterType="int" resultType="com.community.entity.User">
+		SELECT <include refid="Field_PK"/> FROM user u WHERE u.id = #{0}
+	</select>
+	
+	<select id="getUsersByLimit" parameterType="int" resultType="com.community.entity.User">
+		SELECT <include refid="Field_PK"/> FROM user u LIMIT #{0},#{1}
+	</select>
+	
+	<select id="getAllUsers"  resultType="com.community.entity.User">
+		SELECT <include refid="Field_PK"/> FROM user 
+	</select>
+	
+	<select id="getUserByUsername" parameterType="string" resultType="com.community.entity.User">
+		SELECT <include refid="Field_PK"/> FROM user u WHERE u.userName = #{0}
+	</select>
+	
+	<select id="getUserByidCardNum" parameterType="String" resultType="com.community.entity.User">
+		SELECT <include refid="Field_PK"/> FROM user u WHERE u.idCardNum = #{0}
+	</select>
+	<!-- register -->
+	<insert id="addUser" parameterType="com.community.entity.User">
+		INSERT INTO user (
+			userName,
+			password,
+			realName,
+			idCardNum,
+			phone,
+			sex,
+			role,
+			status,
+			createTime,
+			address,
+			settleTime
+		)VALUES(
+			#{userName},
+			#{password},
+			#{realName},
+			#{idCardNum},
+			#{phone},
+			#{sex},
+			1,
+			1,
+			now(),
+			#{address},
+			#{settleTime}
+		)
+	</insert>
+	
+	<update id="updateUser" parameterType="com.community.entity.User">
+		UPDATE user
+		<set>
+			<if test="userName != null and userName !='' ">userName=#{userName},</if>
+			<if test="password != null and password !='' ">password=#{password},</if>
+			<if test="realName != null and realName !='' ">realName=#{realName},</if>
+			<if test="sex != null and sex !='' ">sex=#{sex},</if>
+			<if test="companyName != null and companyName !='' ">companyName=#{companyName},</if>
+			<if test="idCardNum != null and idCardNum !='' ">idCardNum=#{idCardNum},</if>
+			<if test="phone != null and phone !='' ">phone=#{phone},</if>
+			<if test="email != null and email !='' ">email=#{email},</if>
+			<if test="settleTime != null">settleTime=#{settleTime},</if>
+			<if test="mainAccount != null">mainAccount=#{mainAccount},</if>
+			<if test="relationship != null and relationship !='' ">relationship=#{relationship},</if>
+			<if test="role != null">role=#{role},</if>
+			<if test="status != null">status=#{status},</if>
+			updateTime = now()
+		</set>
+		WHERE id =#{id}
+	</update>
+	
+	<update id="deleteUser" parameterType="int">
+		UPDATE user 
+		SET status = 0
+		WHERE id = #{0}
+	</update>
+	
+	<update id="updatePassword" parameterType="com.community.entity.User">
+		UPDATE user 
+		SET password = #{password}
+		WHERE userName = #{userName}
+	</update>
+	
+	<select id="getUserCountByIdCard" parameterType="string" resultType="int">
+		SELECT count(id) FROM user u WHERE u.idCardNum = #{0}
+	</select>
+	
+</mapper>

@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.community.mapper.CarMapper">
+
+	<select id="getAllCatByPage" parameterType="int" resultType="com.community.entity.Car">
+		SELECT * FROM car c LIMIT #{0},#{1}
+	</select>
+	
+	<select id="getCarById" parameterType="int" resultType="com.community.entity.Car">
+		SELECT * FROM car c WHERE c.userId = #{userId}
+	</select>
+	
+	<select id="getCarByCarId" parameterType="int" resultType="com.community.entity.Car">
+		SELECT * FROM car c WHERE c.id = #{userId}
+	</select>
+	
+	<select id="getCarByStatus" parameterType="int" resultType="com.community.entity.Car">
+		SELECT * FROM car c WHERE c.status = #{status} 
+	</select>
+	
+	<update id="updateCar" parameterType="com.community.entity.Car">
+		UPDATE car
+		<set>
+			<if test="plateNum != null and plateNum !='' ">plateNum=#{plateNum},</if>
+			<if test="parkNum != null">parkNum=#{parkNum},</if>
+			<if test="brand != null and brand !='' ">brand=#{brand},</if>
+			<if test="color != null and color !='' ">color=#{color},</if>
+		    <if test="startTime != null">startTime=#{startTime},</if>
+			<if test="serialNumber != null and serialNumber !='' ">serialNumber=#{serialNumber},</if>
+			<if test="endTime != null">endTime=#{endTime},</if>
+			<if test="userId != null">userId=#{userId},</if>
+			<if test="realName != null and realName !='' ">realName=#{realName},</if>
+			<if test="roomId != null">roomId=#{roomId}</if>
+		</set>
+		WHERE id =#{id}
+	</update>
+	
+	<update id="deleteCarById" parameterType="int">
+		UPDATE car 
+		SET status = 0
+		WHERE id = #{0}
+	</update>
+	
+	 <update id="deleteCar" parameterType="java.util.List">  
+        <foreach collection="list" item="item" index="index" open="begin" close="end;" separator="" >   
+           UPDATE car 
+		   SET status = 0
+           WHERE id = #{item.id};  
+        </foreach>  
+    </update>  
+	
+	<update id="batchUpdateUsers03" parameterType="java.util.List">  
+        begin  
+        <foreach collection="list" item="item" index="index" separator="" >   
+            update mhc_user   
+            <set>         
+                userName = #{item.userName}, password = #{item.password}  
+            </set>  
+            where id = #{item.id};  
+        </foreach>  
+        end;  
+    </update> 
+	
+	<insert id="addCar" parameterType="com.community.entity.Car">
+		INSERT INTO car(
+			plateNum,
+			parkNum,
+			brand,
+			color,
+			startTime,
+			serialNumber,
+			endTime,
+			userId,
+			realName,
+			roomId,
+			status
+		)VALUES(
+			#{plateNum},
+			#{parkNum},
+			#{brand},
+			#{color},
+			#{startTime},
+			#{serialNumber},
+			#{endTime},
+			#{userId},
+			#{realName},
+			#{roomId},
+			#{status}
+		)
+	</insert>
+	
+</mapper>

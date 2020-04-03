@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.community.mapper.RoomMapper">
+
+	<select id="getRoomByPage" parameterType="int" resultType="com.community.entity.Room">
+		SELECT * FROM room LIMIT #{0},#{1}
+	</select>
+	
+	<select id="getRoomById" parameterType="int" resultType="com.community.entity.Room">
+		SELECT * FROM room r WHERE r.id = #{0}
+	</select>
+	
+	<select id="getRoomByUserId" parameterType="int" resultType="com.community.entity.Room">
+		SELECT * FROM room r WHERE r.userId = #{0}
+	</select>
+	
+	<select id="getRoomBySold" parameterType="int" resultType="com.community.entity.Room">
+		SELECT * FROM room r WHERE r.sold = #{0}
+	</select>
+	
+	<update id="updateRoom" parameterType="com.community.entity.Room">
+		UPDATE room
+		<set>
+			<if test="communityName != null and communityName !='' ">communityName=#{communityName},</if>
+			<if test="buildingNum != null">buildingNum=#{buildingNum},</if>
+			<if test="unitNum != null">unitNum=#{unitNum},</if>
+			<if test="roomNum != null">roomNum=#{roomNum},</if>
+		    <if test="commonArea != null">commonArea=#{commonArea},</if>
+			<if test="area != null">area=#{area},</if>
+			<if test="roomType != null and roomType !='' ">roomType=#{roomType},</if>
+			<if test="userId != null">userId=#{userId},</if>
+			<if test="realName != null and realName !='' ">realName=#{realName},</if>
+			<if test="sold != null">sold=#{sold}</if>
+		</set>
+		WHERE id =#{id}
+	</update>
+	
+	<update id="deleteRoom" parameterType="int">
+		UPDATE room 
+		SET status = 0
+		WHERE id = #{0}
+	</update>
+	
+	<insert id="addRoom" parameterType="com.community.entity.Room">
+		INSERT INTO room(
+			communityName,
+			buildingNum,
+			unitNum,
+			roomNum,
+			commonArea,
+			area,
+			roomType,
+			userId,
+			realName,
+			sold
+		)VALUES(
+			#{communityName},
+			#{buildingNum},
+			#{unitNum},
+			#{roomNum},
+			#{commonArea},
+			#{area},
+			#{roomType},
+			#{userId},
+			#{realName},
+			#{sold}
+		)
+	</insert>
+	
+</mapper>

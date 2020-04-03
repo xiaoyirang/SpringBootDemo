@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.community.mapper.SyslogMapper">
+
+	<select id="getSyslogByPage" parameterType="int" resultType="com.community.entity.Syslog">
+		SELECT * FROM syslog c LIMIT #{0},#{1}
+	</select>
+	
+	<select id="getSyslogById" parameterType="int" resultType="com.community.entity.Syslog">
+		SELECT * FROM syslog c WHERE c.id = #{0}
+	</select>
+	
+	<update id="updateSyslog" parameterType="com.community.entity.Syslog">
+		UPDATE syslog
+		<set>
+			<if test="userName != null and userName !='' ">userName=#{userName}</if>
+			<if test="model != null and model !='' ">model=#{model}</if>
+			<if test="msg != null and msg !='' ">msg=#{msg}</if>
+		    <if test="time != null">time=#{time}</if>
+			<if test="userId != null">userId=#{userId}</if>
+			<if test="realName != null and realName !='' ">realName=#{realName}</if>
+		</set>
+		WHERE id =#{id}
+	</update>
+	
+	<update id="deleteSyslog" parameterType="int">
+		UPDATE syslog 
+		SET status = 0
+		WHERE id = #{0}
+	</update>
+	
+	<insert id="addSyslog" parameterType="com.community.entity.Syslog">
+		INSERT INTO syslog(
+			userId,
+			userName,
+			realName,
+			model,
+			msg,
+			time
+		)VALUES(
+			#{userId},
+			#{userName},
+			#{realName},
+			#{model},
+			#{msg},
+			#{time}
+		)
+	</insert>
+	
+</mapper>

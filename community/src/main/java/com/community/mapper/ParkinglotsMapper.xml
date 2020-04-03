@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.community.mapper.ParkinglotsMapper">
+
+	<select id="getAllParkinglotsByPage" parameterType="int" resultType="com.community.entity.Parkinglots">
+		SELECT * FROM parkinglots LIMIT #{0},#{1}
+	</select>
+	
+	<select id="getParkinglotsById" parameterType="int" resultType="com.community.entity.Parkinglots">
+		SELECT * FROM parkinglots c WHERE c.id = #{0}
+	</select>
+	
+	<select id="getParkinglotsByserialNumber" parameterType="String" resultType="com.community.entity.Parkinglots">
+		SELECT * FROM parkinglots c WHERE c.serialNumber = #{serialNumber}
+	</select>
+	
+	<update id="updateParkinglots" parameterType="com.community.entity.Parkinglots">
+		UPDATE parkinglots
+		<set>
+			<if test="serialNumber != null and serialNumber !='' ">serialNumber=#{serialNumber},</if>
+			<if test="location != null and location !='' ">location=#{location},</if>
+			<if test="userId != null">userId=#{userId},</if>
+			<if test="realName != null and realName !='' ">realName=#{realName},</if>
+			<if test="sold != null">sold=#{sold},</if>
+			<if test="startTime != null">startTime=#{startTime},</if>
+			<if test="endTime != null">endTime=#{endTime},</if>
+			<if test="carId != null">carId=#{carId}</if>
+		</set>
+		WHERE id =#{id}
+	</update>
+	
+	<update id="deleteParkinglots" parameterType="int">
+		UPDATE parkinglots 
+		SET status = 0
+		WHERE id = #{0}
+	</update>
+	
+	<insert id="addParkinglots" parameterType="com.community.entity.Parkinglots">
+		INSERT INTO parkinglots(
+			serialNumber,
+			location,
+			userId,
+			realName,
+			sold,
+			startTime,
+			endTime,
+			carId
+		)VALUES(
+			#{serialNumber},
+			#{location},
+			#{userId},
+			#{realName},
+			#{sold},
+			#{startTime},
+			#{endTime},
+			#{carId}
+		)
+	</insert>
+
+</mapper>
